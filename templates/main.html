@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <title>ZNÁŠ NERA 6 WEB APP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style_main.css') }}">
 </head>
 <body>
-    <h1>ZNAS NERA? - WEB APP BETA</h1>
+    <h1>ZNÁŠ NERA 6 WEB APP</h1>
     <div id="pass">
         <input id="teamname" type="text" placeholder="Team ID.">
         <input id="levelcode" type="text" placeholder="Level code.">    
@@ -16,6 +16,6 @@
     <div id ="textinfo">Info: {{msg}}</div>
     <button id="showimg">SHOW PHOTO</button>
     <button id="showhint">SHOW HINT</button>
-    <script src="{{ url_for('static', filename='scripts/navigate.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/script_main.js') }}"></script>
 </body>
 </html>

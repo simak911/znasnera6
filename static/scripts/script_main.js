@@ -3,6 +3,19 @@ function getTeamName(){
     return urlParams.get('tname');
 }
 
+async function getHintTimes(){
+  const baseurl = window.location.origin;
+  const teamname = getTeamName();
+  const url = `${baseurl}/get-hinttimes?tname=${teamname}`;
+  const response = await fetch(url);
+  const json = await response.json();
+  const status = json.status
+  if (status === 'valid') {
+    const htime = json.htime;
+    document.getElementById("hinttime").innerHTML = `Time for the next hint: ${htime}`
+  }
+}
+
 document.getElementById("confirm").addEventListener("click", function() {
     const teamname = getTeamName();
     const levelcode = document.getElementById("levelcode").value;
@@ -26,3 +39,6 @@ document.getElementById("showhint").addEventListener("click", function(){
     url = window.location.origin + '/get-hint' + `?tname=${teamname}`;
     window.open(url, "_blank");
 });
+
+getHintTimes();
+setInterval(getHintTimes, 500);

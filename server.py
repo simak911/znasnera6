@@ -52,7 +52,7 @@ def get_main_page():
     if uid not in gv.uids:
         return render_template('index.html', msg='Wrong team ID.')
     else:
-        return render_template('main.html', msg='Successful login.')
+        return render_template('main.html', msg='Successful login.', msgcolor='pos')
 
 @app.route('/entered')
 def entered():
@@ -61,7 +61,7 @@ def entered():
     if uid in gv.uids:
         if code in gv.codes:
             if not gv.teams[uid].isstarted:
-                return render_template('main.html', msg='Game not started yet.') 
+                return render_template('main.html', msg='Game not started yet.', msgcolor='neg') 
             else:
                 level = gv.codes.index(code)
                 gv.teams[uid].level = level
@@ -69,12 +69,12 @@ def entered():
                     gv.teams[uid].isended = True
                     gv.teams[uid].stats['e'] = timestamp() 
                     gv.teams[uid].stats['t'] = gv.teams[uid].stats['e'] - gv.teams[uid].stats['s']
-                    return render_template('main.html', msg='Finish!') 
+                    return render_template('main.html', msg='Finish! Go to Jistota!', msgcolor='pos') 
                 else:
                     stringlevel = str(level)
                     if not (stringlevel in gv.teams[uid].stats.keys()):
                         gv.teams[uid].stats[stringlevel] = timestamp()                                
-                    return render_template('main.html', msg='Success!') 
+                    return render_template('main.html', msg='Success!', msgcolor='pos') 
         elif code in gv.startcodes:
             if not gv.teams[uid].isstarted:
                 gv.teams[uid].isstarted = True
@@ -84,13 +84,13 @@ def entered():
                 stringlevel = str(level)
                 gv.teams[uid].stats[stringlevel] = timestamp()
                 gv.teams[uid].stats['s'] = timestamp()   
-                return render_template('main.html', msg='Game started!') 
+                return render_template('main.html', msg='Game started!', msgcolor='pos') 
             else:
-                return render_template('main.html', msg='Code not found.')      
+                return render_template('main.html', msg='Code not found.', msgcolor='neg')      
         else:
-            return render_template("main.html", msg="Code not found.")          
+            return render_template("main.html", msg="Code not found.", msgcolor='neg')          
     else:
-        return render_template("main.html", msg="Team not found.")
+        return render_template("main.html", msg="Team not found.", msgcolor='neg')
 
 @app.route('/get-img')
 def get_image():
@@ -100,9 +100,9 @@ def get_image():
         if level > -1:
             return send_file(f'./imgs/s{level}.JPG', mimetype='image/jpeg')
         else:
-            return render_template('main.html', msg='You can not load the image. You probably did not start the game yet.')
+            return render_template('main.html', msg='You can not load the image. You probably did not start the game yet.', msgcolor='neg')
     except:
-        return render_template('main.html', msg='You can not load the image. Check your team id.')
+        return render_template('main.html', msg='You can not load the image. Check your team id.', msgcolor='neg')
 
 @app.route('/get-hint')
 def get_hint():
@@ -122,11 +122,30 @@ def get_hint():
             if hintnumber > 0:
                 return send_file(f'./imgs/h{level}_{hintnumber}.JPG', mimetype='image/jpeg')
             else:
-                return render_template('main.html', msg=f'Wait for the hint {hinttimes[0] - timewait} seconds.')
+                return render_template('main.html', msg=f'Wait for the hint! ({hinttimes[0] - timewait} seconds)', msgcolor='neg')
         else:
-            return render_template('main.html', msg='You can not load the image. You probably did not start the game yet.')
+            return render_template('main.html', msg='You can not load the image. You probably did not start the game yet.', msgcolor='neg')
     except:
-        return render_template('main.html', msg='You can not load the image. Check your team id.')
+        return render_template('main.html', msg='You can not load the image. Check your team id.', msgcolor='neg')
+
+@app.route('/get-hinttimes')
+def get_hinttimes():  
+    try: 
+        uid = request.args.get('tname') 
+        level = gv.teams[uid].level
+        stringlevel = str(level)
+        timeonlevel = gv.teams[uid].stats[stringlevel]
+        timenow = timestamp()
+        timewait = timenow - timeonlevel
+        hinttimes = gv.hintstimes[level]
+        htime = 0
+        for i in range(3):
+            if hinttimes[i] - timewait > 0:
+                htime = hinttimes[i] - timewait
+                break  
+        return {'status': 'valid', 'htime': htime}
+    except:
+        return {'status': 'invalid'}
 
 @app.route('/get-stats')
 def get_stats():

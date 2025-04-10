@@ -9,8 +9,11 @@
 </head>
 <body>
     <h1>ZNÁŠ NERA 6 WEB APP</h1>
-    <input id="teamid" type="text" placeholder="Team ID.">
-    <button id="loginbutton">OK</button>
+    <div id="pass">
+        <input id="teamid" type="text" placeholder="Team ID.">
+        <button id="loginbutton">OK</button>
+    </div>
+    <div id ="logininfo">Info: {{msg}}</div>
     <script src="{{ url_for('static', filename='scripts/script_index.js') }}"></script>
 </body>
 </html>

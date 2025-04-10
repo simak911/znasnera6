@@ -44,11 +44,15 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/index')
 def get_login_page():
-    return render_template('index.html')
+    return render_template('index.html', msg='')
 
 @app.route('/main')
 def get_main_page():
-    return render_template('main.html', msg='')
+    uid = request.args.get('tname')
+    if uid not in gv.uids:
+        return render_template('index.html', msg='Wrong team ID.')
+    else:
+        return render_template('main.html', msg='Successful login.')
 
 @app.route('/entered')
 def entered():

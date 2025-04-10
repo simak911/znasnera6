@@ -43,8 +43,12 @@ gv.uids.append('test69')
 app = Flask(__name__)
 @app.route('/')
 @app.route('/index')
-def index():
-    return render_template('index.html', msg='')
+def get_login_page():
+    return render_template('index.html')
+
+@app.route('/main')
+def get_main_page():
+    return render_template('main.html', msg='')
 
 @app.route('/entered')
 def entered():
@@ -53,7 +57,7 @@ def entered():
     if uid in gv.uids:
         if code in gv.codes:
             if not gv.teams[uid].isstarted:
-                return render_template('index.html', msg='Game not started yet.') 
+                return render_template('main.html', msg='Game not started yet.') 
             else:
                 level = gv.codes.index(code)
                 gv.teams[uid].level = level
@@ -61,12 +65,12 @@ def entered():
                     gv.teams[uid].isended = True
                     gv.teams[uid].stats['e'] = timestamp() 
                     gv.teams[uid].stats['t'] = gv.teams[uid].stats['e'] - gv.teams[uid].stats['s']
-                    return render_template('index.html', msg='Finish!') 
+                    return render_template('main,html', msg='Finish!') 
                 else:
                     stringlevel = str(level)
                     if not (stringlevel in gv.teams[uid].stats.keys()):
                         gv.teams[uid].stats[stringlevel] = timestamp()                                
-                    return render_template('index.html', msg='Success!') 
+                    return render_template('main,html', msg='Success!') 
         elif code in gv.startcodes:
             if not gv.teams[uid].isstarted:
                 gv.teams[uid].isstarted = True
@@ -76,13 +80,13 @@ def entered():
                 stringlevel = str(level)
                 gv.teams[uid].stats[stringlevel] = timestamp()
                 gv.teams[uid].stats['s'] = timestamp()   
-                return render_template('index.html', msg='Game started!') 
+                return render_template('main,html', msg='Game started!') 
             else:
-                return render_template('index.html', msg='Code not found.')      
+                return render_template('main,html', msg='Code not found.')      
         else:
-            return render_template("index.html", msg="Code not found.")          
+            return render_template("main,html", msg="Code not found.")          
     else:
-        return render_template("index.html", msg="Team not found.")
+        return render_template("main,html", msg="Team not found.")
 
 @app.route('/get-img')
 def get_image():
@@ -92,9 +96,9 @@ def get_image():
         if level > -1:
             return send_file(f'./imgs/s{level}.JPG', mimetype='image/jpeg')
         else:
-            return render_template('index.html', msg='You can not load the image. You probably did not start the game yet.')
+            return render_template('main,html', msg='You can not load the image. You probably did not start the game yet.')
     except:
-        return render_template('index.html', msg='You can not load the image. Check your team id.')
+        return render_template('main,html', msg='You can not load the image. Check your team id.')
 
 @app.route('/get-hint')
 def get_hint():
@@ -114,11 +118,11 @@ def get_hint():
             if hintnumber > 0:
                 return send_file(f'./imgs/h{level}_{hintnumber}.JPG', mimetype='image/jpeg')
             else:
-                return render_template('index.html', msg=f'Wait for the hint {hinttimes[0] - timewait} seconds.')
+                return render_template('main,html', msg=f'Wait for the hint {hinttimes[0] - timewait} seconds.')
         else:
-            return render_template('index.html', msg='You can not load the image. You probably did not start the game yet.')
+            return render_template('main,html', msg='You can not load the image. You probably did not start the game yet.')
     except:
-        return render_template('index.html', msg='You can not load the image. Check your team id.')
+        return render_template('main,html', msg='You can not load the image. Check your team id.')
 
 @app.route('/get-stats')
 def get_stats():

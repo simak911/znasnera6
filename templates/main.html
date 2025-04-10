@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+</head>
+<body>
+    <h1>ZNAS NERA? - WEB APP BETA</h1>
+    <div id="pass">
+        <input id="teamname" type="text" placeholder="Team ID.">
+        <input id="levelcode" type="text" placeholder="Level code.">    
+        <button id="confirm">OK</button>
+    </div>
+    <div id ="textinfo">Info: {{msg}}</div>
+    <button id="showimg">SHOW PHOTO</button>
+    <button id="showhint">SHOW HINT</button>
+    <script src="{{ url_for('static', filename='scripts/navigate.js') }}"></script>
+</body>
+</html>

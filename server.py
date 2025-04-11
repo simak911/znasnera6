@@ -7,11 +7,16 @@ def timestamp():
 
 class GlobalVariables():
     def __init__(self):
-        self.teams = {'test69': Team('test','test69')}
+        self.teams = {'t4e2s0t': Team('test','t4e2s0t')}
         self.uids = []
-        self.codes = ['qwe','asd','zxc']
-        self.startcodes = ['iop','jkl','bnm']
-        self.hintstimes = [[10,20,30],[15,30,45],[30,60,90]]
+        self.codes = ["qhdxzrw","btrceym","znlkjwa","uxavqnp","jydltqe","wvhoskg","kapzirn","rsmvqtc","egdywlu",
+                      "mhzbkxp","fnyjqwa","ldctugv","xqibsmr","tpvnehc","awjzkml","nevytqs"]
+        self.startcodes = ["zqjrytd","mbtxpwa","lkhnzve","yufsdqm","cjwrbxt","gnovkle","xadumpi","qsryjzh","tmezlca",
+                           "drkwiqn","vuxcpth","nlbqgye","eawmjuz","hipkxrn","kzlfbvo","sydqacm"]
+        self.hintstimes = [[15,30,45],[15,30,45],[15,30,45],[15,30,45],
+                           [15,30,45],[15,30,45],[15,30,45],[15,30,45],
+                           [15,30,45],[15,30,45],[15,30,45],[15,30,45],
+                           [15,30,45],[15,30,45],[15,30,45],[15,30,45]]
         self.admcode = 'a6d9m'
 
 class Team():
@@ -39,7 +44,7 @@ for uid in gv.uids:
     name = regteams[uid]
     team = Team(name, uid)
     gv.teams[uid] = team
-gv.uids.append('test69')
+gv.uids.append('t4e2s0t')
 
 app = Flask(__name__)
 @app.route('/')
@@ -102,7 +107,7 @@ def get_image():
         uid = request.args.get('tname') 
         level = gv.teams[uid].level
         if level > -1:
-            return send_file(f'./imgs/s{level}.JPG', mimetype='image/jpeg')
+            return send_file(f'./imgs/s{level}.jpg', mimetype='image/jpeg')
         else:
             return send_file('./imgs/loadfail.jpg', mimetype='image/jpeg')
     except:
@@ -124,7 +129,7 @@ def get_hint():
         elif timewait>hinttimes[0]: hintnumber=1
         if level > -1:
             if hintnumber > 0:
-                return send_file(f'./imgs/h{level}_{hintnumber}.JPG', mimetype='image/jpeg')
+                return send_file(f'./imgs/h{level}_{hintnumber}.jpg', mimetype='image/jpeg')
             else:
                 return send_file('./imgs/wait.jpg', mimetype='image/jpeg')
         else:

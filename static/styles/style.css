@@ -26,10 +26,10 @@ h2 {
     min-width: 150px;
 }
 
-#reset {
+#codeinput {
     margin: 5px;
 }
 
-#statsbutton {
+.mbuttons {
     margin: 5px;
 }

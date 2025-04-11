@@ -12,7 +12,10 @@ async function getHintTimes(){
   const status = json.status
   if (status === 'valid') {
     const htime = json.htime;
-    document.getElementById("hinttime").innerHTML = `Time for the next hint: ${htime}`
+    const hnumber = json.hnumber;
+    if (hnumber !== 0){
+      document.getElementById("hinttime").innerHTML = `Time for the ${hnumber}. hint: ${htime}`
+    }  
   }
 }
 

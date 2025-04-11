@@ -7,19 +7,6 @@ h2 {
     margin: 5px;
 }
 
-#logininfo {
-    border: solid 2px black;
-    margin: 5px;
-    background-color: white;
-    padding: 5px;
-    display: inline-block;
-    min-width: 150px;
-}
-
-#pass {
-    margin: 5px;
-}
-
 .pos {
     color: green;
     font-weight: bold;
@@ -28,4 +15,21 @@ h2 {
 .neg {
     color: red;
     font-weight: bold;
+}
+
+#textinfo {
+    border: solid 2px black;
+    margin: 5px;
+    background-color: white;
+    padding: 5px;
+    display: inline-block;
+    min-width: 150px;
+}
+
+#reset {
+    margin: 5px;
+}
+
+#statsbutton {
+    margin: 5px;
 }

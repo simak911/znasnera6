@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZNÁŠ NERA 6 WEB APP</title>
+    <title>ZNÁŠ NERA WEB APP</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style_main.css') }}">
 </head>
 <body>
-    <h1>ZNÁŠ NERA 6 WEB APP</h1>
+    <h2>ZNÁŠ NERA 6?</h2>
     <div id="code">
         <input id="levelcode" type="text" placeholder="Level code.">    
         <button id="confirm">OK</button>
     </div>
     <div id ="textinfo" class={{msgcolor}}>Info: {{msg}}</div>
+    <div id="buttons">
     <button id="showimg">SHOW PHOTO</button>
     <button id="showhint">SHOW HINT</button>
+    </div>
     <div id="hinttime"></div>
     <script src="{{ url_for('static', filename='scripts/script_main.js') }}"></script>
 </body>

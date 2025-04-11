@@ -1,9 +1,17 @@
 from flask import Flask, render_template, request, send_file, g
 from waitress import serve
-import time
+import time, os
 
 def timestamp():
     return round(time.time())
+
+def tostring(list):
+    s = ''
+    for elem in list:
+        s+=str(elem)+','
+    s=s[:-1]
+    s+='\n'
+    return s
 
 class GlobalVariables():
     def __init__(self):
@@ -17,6 +25,7 @@ class GlobalVariables():
                            [15,30,45],[15,30,45],[15,30,45],[15,30,45],
                            [15,30,45],[15,30,45],[15,30,45],[15,30,45],
                            [15,30,45],[15,30,45],[15,30,45],[15,30,45]]
+        self.levelcount = len(self.codes)
         self.admcode = 'a6d9m'
 
 class Team():
@@ -160,14 +169,26 @@ def get_hinttimes():
 
 @app.route('/get-stats')
 def get_stats():
-    uid = request.args.get('tname')
-    if uid == gv.admcode:
-        response = {}
+    adminid = request.args.get('tname')
+    if adminid == gv.admcode:
+        f = open('./temp.csv', 'w', encoding='utf-8')
+        firstline = ['name','s']
+        for i in range (gv.levelcount):
+            firstline.append(str(i))
+        firstline.append('e')
+        firstline.append('t')
+        f.write(tostring(firstline))
         for uid in gv.teams.keys():
-            stats = gv.teams[uid].stats
             name = gv.teams[uid].name
-            response[name] = stats
-        return response
+            line = [name]
+            for key in firstline[1:]:
+                if key in gv.teams[uid].stats.keys():
+                    line.append(str(gv.teams[uid].stats[key]))
+                else:
+                    line.append('-')
+            f.write(tostring(line))
+        f.close()
+        return send_file('./temp.csv', mimetype='text/csv', as_attachment=True, download_name='stats.csv')          
     else:
         return render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
 

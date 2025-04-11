@@ -3,6 +3,10 @@ body {
     background-color: lightyellow;
 }
 
+h2 {
+    margin: 5px;
+}
+
 .pos {
     color: green;
     font-weight: bold;

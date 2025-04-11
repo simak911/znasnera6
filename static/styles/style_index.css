@@ -3,6 +3,10 @@ body {
     background-color: lightyellow;
 }
 
+h2 {
+    margin: 5px;
+}
+
 #logininfo {
     border: solid 2px black;
     margin: 5px;

@@ -12,6 +12,7 @@ class GlobalVariables():
         self.codes = ['qwe','asd','zxc']
         self.startcodes = ['iop','jkl','bnm']
         self.hintstimes = [[10,20,30],[15,30,45],[30,60,90]]
+        self.admcode = 'a6d9m'
 
 class Team():
     def __init__(self, name, uid):
@@ -44,15 +45,18 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/index')
 def get_login_page():
-    return render_template('index.html', msg='')
+    return render_template('index.html', msg='', msgcolor='neut')
 
 @app.route('/main')
 def get_main_page():
     uid = request.args.get('tname')
-    if uid not in gv.uids:
-        return render_template('index.html', msg='Wrong team ID.')
+    if uid == gv.admcode:
+        return render_template('admin.html', msg='Logged into admin menu.', msgcolor='pos')
+    elif uid in gv.uids:
+        return render_template('main.html', msg='Successful login.', msgcolor='pos')   
     else:
-        return render_template('main.html', msg='Successful login.', msgcolor='pos')
+        return render_template('index.html', msg='Wrong team ID.', msgcolor='neg')
+
 
 @app.route('/entered')
 def entered():
@@ -160,13 +164,16 @@ def get_stats():
 
 @app.route('/reset-game')
 def reset_game():
-    for uid in gv.uids:
-        gv.teams[uid].stats = {}
-        gv.teams[uid].startlevel = -1
-        gv.teams[uid].level = -1
-        gv.teams[uid].isstarted = False
-        gv.teams[uid].isended = False
-    return {'action': 'Game successfully reseted.'}
-
+    uid = request.args.get('tname')
+    if uid == gv.admcode:
+        resetuid = request.args.get('rname')
+        gv.teams[resetuid].stats = {}
+        gv.teams[resetuid].startlevel = -1
+        gv.teams[resetuid].level = -1
+        gv.teams[resetuid].isstarted = False
+        gv.teams[resetuid].isended = False
+        render_template('admin.html', msg=f'Team {gv.teams[resetuid].name} reseted.', msgcolor='pos')
+    else:
+        render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
 if __name__ == "__main__":
     serve(app, host="0.0.0.0", port=8000)

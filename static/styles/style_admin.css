@@ -2,15 +2,6 @@ body {
     font-family: 'Calibri';
 }
 
-#logininfo {
-    border: solid 2px black;
-    margin: 5px;
-}
-
-#pass {
-    margin: 5px;
-}
-
 .pos {
     color: green;
     font-weight: bold;
@@ -19,4 +10,9 @@ body {
 .neg {
     color: red;
     font-weight: bold;
+}
+
+#textinfo {
+    border: solid 2px black;
+    margin: 5px;
 }

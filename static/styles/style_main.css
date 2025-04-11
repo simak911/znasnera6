@@ -1,10 +1,15 @@
 body {
     font-family: 'Calibri';
+    background-color: lightyellow;
 }
 
 #textinfo {
     border: solid 2px black;
     margin: 5px;
+    background-color: white;
+    padding: 5px;
+    display: inline-block;
+    min-width: 150px;
 }
 
 #code {

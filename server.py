@@ -155,12 +155,16 @@ def get_hinttimes():
 
 @app.route('/get-stats')
 def get_stats():
-    response = {}
-    for uid in gv.teams.keys():
-        stats = gv.teams[uid].stats
-        name = gv.teams[uid].name
-        response[name] = stats
-    return response
+    uid = request.args.get('tname')
+    if uid == gv.admcode:
+        response = {}
+        for uid in gv.teams.keys():
+            stats = gv.teams[uid].stats
+            name = gv.teams[uid].name
+            response[name] = stats
+        return response
+    else:
+        return render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
 
 @app.route('/reset-game')
 def reset_game():

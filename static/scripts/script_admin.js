@@ -14,3 +14,10 @@ document.getElementById("resetbutton").addEventListener("click", function() {
       alert("Please fill in team id.");
     }
   });
+
+document.getElementById("statsbutton").addEventListener("click", function() {
+    const teamname = getTeamName();
+    const baseurl = window.location.origin;
+    const url = `${baseurl}/get-stats?tname=${teamname}`;
+    window.open(url, "_blank");
+  });

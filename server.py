@@ -100,9 +100,9 @@ def get_image():
         if level > -1:
             return send_file(f'./imgs/s{level}.JPG', mimetype='image/jpeg')
         else:
-            return render_template('main.html', msg='You can not load the image. You probably did not start the game yet.', msgcolor='neg')
+            return send_file('./imgs/loadfail.jpg', mimetype='image/jpeg')
     except:
-        return render_template('main.html', msg='You can not load the image. Check your team id.', msgcolor='neg')
+        return send_file('./imgs/loadfail.jpg', mimetype='image/jpeg')
 
 @app.route('/get-hint')
 def get_hint():
@@ -122,11 +122,11 @@ def get_hint():
             if hintnumber > 0:
                 return send_file(f'./imgs/h{level}_{hintnumber}.JPG', mimetype='image/jpeg')
             else:
-                return render_template('main.html', msg=f'Wait for the hint! ({hinttimes[0] - timewait} seconds)', msgcolor='neg')
+                return send_file('./imgs/wait.jpg', mimetype='image/jpeg')
         else:
-            return render_template('main.html', msg='You can not load the image. You probably did not start the game yet.', msgcolor='neg')
+            return send_file('./imgs/loadfail.jpg', mimetype='image/jpeg')
     except:
-        return render_template('main.html', msg='You can not load the image. Check your team id.', msgcolor='neg')
+        return send_file('./imgs/loadfail.jpg', mimetype='image/jpeg')
 
 @app.route('/get-hinttimes')
 def get_hinttimes():  
@@ -139,11 +139,13 @@ def get_hinttimes():
         timewait = timenow - timeonlevel
         hinttimes = gv.hintstimes[level]
         htime = 0
+        hnumber = 0
         for i in range(3):
             if hinttimes[i] - timewait > 0:
                 htime = hinttimes[i] - timewait
+                hnumber = i+1
                 break  
-        return {'status': 'valid', 'htime': htime}
+        return {'status': 'valid', 'htime': htime, 'hnumber': hnumber}
     except:
         return {'status': 'invalid'}
 

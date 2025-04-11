@@ -14,8 +14,13 @@ async function getHintTimes(){
     const htime = json.htime;
     const hnumber = json.hnumber;
     if (hnumber !== 0){
-      document.getElementById("hinttime").innerHTML = `Time for the ${hnumber}. hint: ${htime}`
-    }  
+      document.getElementById("hintlabel").innerHTML = `Time for the ${hnumber}. hint:`;
+      document.getElementById("hinttime").innerHTML = `${htime}`;
+    }
+    else {
+      document.getElementById("hintlabel").innerHTML = '';
+      document.getElementById("hinttime").innerHTML = '';
+    }
   }
 }
 

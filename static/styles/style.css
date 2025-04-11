@@ -42,3 +42,12 @@ h2 {
     border-radius: 7px;
     padding: 2.5px 5px;
 }
+
+#hintlabel {
+    margin:5px;
+}
+
+#hinttime {
+    margin: 5px;
+    font-family: 'Orbitron', sans-serif;
+}

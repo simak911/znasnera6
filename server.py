@@ -107,7 +107,7 @@ def get_image():
         uid = request.args.get('tname') 
         level = gv.teams[uid].level
         if level > -1:
-            return send_file(f'./imgs/s{level}.JPG', mimetype='image/jpeg')
+            return send_file(f'./imgs/s{level}.jpg', mimetype='image/jpeg')
         else:
             return send_file('./imgs/loadfail.jpg', mimetype='image/jpeg')
     except:
@@ -129,7 +129,7 @@ def get_hint():
         elif timewait>hinttimes[0]: hintnumber=1
         if level > -1:
             if hintnumber > 0:
-                return send_file(f'./imgs/h{level}_{hintnumber}.JPG', mimetype='image/jpeg')
+                return send_file(f'./imgs/h{level}_{hintnumber}.jpg', mimetype='image/jpeg')
             else:
                 return send_file('./imgs/wait.jpg', mimetype='image/jpeg')
         else:

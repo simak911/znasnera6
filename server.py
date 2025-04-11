@@ -167,13 +167,17 @@ def reset_game():
     uid = request.args.get('tname')
     if uid == gv.admcode:
         resetuid = request.args.get('rname')
-        gv.teams[resetuid].stats = {}
-        gv.teams[resetuid].startlevel = -1
-        gv.teams[resetuid].level = -1
-        gv.teams[resetuid].isstarted = False
-        gv.teams[resetuid].isended = False
-        render_template('admin.html', msg=f'Team {gv.teams[resetuid].name} reseted.', msgcolor='pos')
+        if resetuid in gv.uids:
+            gv.teams[resetuid].stats = {}
+            gv.teams[resetuid].startlevel = -1
+            gv.teams[resetuid].level = -1
+            gv.teams[resetuid].isstarted = False
+            gv.teams[resetuid].isended = False
+            render_template('admin.html', msg=f'Team {gv.teams[resetuid].name} reseted.', msgcolor='pos')
+        else:
+            render_template('admin.html', msg=f'Team id not found.', msgcolor='neg')
     else:
         render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
+        
 if __name__ == "__main__":
     serve(app, host="0.0.0.0", port=8000)

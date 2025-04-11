@@ -27,7 +27,7 @@ document.getElementById("confirm").addEventListener("click", function() {
       const url = `${baseurl}/entered?code=${levelcode}&tname=${teamname}`;
       window.open(url, "_self");
     } else {
-      alert("Please fill in both team id and level code.");
+      alert("Please fill in level code.");
     }
   });
 

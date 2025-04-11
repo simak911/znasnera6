@@ -60,7 +60,7 @@ def get_main_page():
 
 @app.route('/entered')
 def entered():
-    code = request.args.get('code')
+    code = request.args.get('code').lower()
     uid = request.args.get('tname')
     if uid in gv.uids:
         if code in gv.codes:

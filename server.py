@@ -3,7 +3,7 @@ from waitress import serve
 import time, os
 
 def gettimestamp():
-    timestamp = 1745628000
+    timestamp = 1745618400
     return round(time.time() - timestamp)
 
 def tostring(list):

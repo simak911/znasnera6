@@ -2,8 +2,9 @@ from flask import Flask, render_template, request, send_file, g
 from waitress import serve
 import time, os
 
-def timestamp():
-    return round(time.time())
+def gettimestamp():
+    timestamp = 1745628000
+    return round(time.time() - timestamp)
 
 def tostring(list):
     s = ''
@@ -85,13 +86,13 @@ def entered():
                 gv.teams[uid].level = level
                 if level == gv.teams[uid].startlevel and not gv.teams[uid].isended:
                     gv.teams[uid].isended = True
-                    gv.teams[uid].stats['e'] = timestamp() 
+                    gv.teams[uid].stats['e'] = gettimestamp() 
                     gv.teams[uid].stats['t'] = gv.teams[uid].stats['e'] - gv.teams[uid].stats['s']
                     return render_template('main.html', msg='Finish! Go to Jistota!', msgcolor='pos') 
                 else:
                     stringlevel = str(level)
                     if not (stringlevel in gv.teams[uid].stats.keys()):
-                        gv.teams[uid].stats[stringlevel] = timestamp()                                
+                        gv.teams[uid].stats[stringlevel] = gettimestamp()                                
                     return render_template('main.html', msg='Success!', msgcolor='pos') 
         elif code in gv.startcodes:
             if not gv.teams[uid].isstarted:
@@ -100,8 +101,8 @@ def entered():
                 gv.teams[uid].level = level
                 gv.teams[uid].startlevel = level
                 stringlevel = str(level)
-                gv.teams[uid].stats[stringlevel] = timestamp()
-                gv.teams[uid].stats['s'] = timestamp()   
+                gv.teams[uid].stats[stringlevel] = gettimestamp()
+                gv.teams[uid].stats['s'] = gettimestamp()   
                 return render_template('main.html', msg='Game started!', msgcolor='pos') 
             else:
                 return render_template('main.html', msg='Code not found.', msgcolor='neg')      
@@ -129,7 +130,7 @@ def get_hint():
         level = gv.teams[uid].level
         stringlevel = str(level)
         timeonlevel = gv.teams[uid].stats[stringlevel]
-        timenow = timestamp()
+        timenow = gettimestamp()
         timewait = timenow - timeonlevel
         hinttimes = gv.hintstimes[level]
         hintnumber = 0
@@ -153,7 +154,7 @@ def get_hinttimes():
         level = gv.teams[uid].level
         stringlevel = str(level)
         timeonlevel = gv.teams[uid].stats[stringlevel]
-        timenow = timestamp()
+        timenow = gettimestamp()
         timewait = timenow - timeonlevel
         hinttimes = gv.hintstimes[level]
         htime = 0

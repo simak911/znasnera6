@@ -22,10 +22,11 @@ class GlobalVariables():
                       "mhzbkxp","fnyjqwa","ldctugv","xqibsmr","tpvnehc","awjzkml","nevytqs"]
         self.startcodes = ["zqjrytd","mbtxpwa","lkhnzve","yufsdqm","cjwrbxt","gnovkle","xadumpi","qsryjzh","tmezlca",
                            "drkwiqn","vuxcpth","nlbqgye","eawmjuz","hipkxrn","kzlfbvo","sydqacm"]
-        self.hintstimes = [[15,30,45],[15,30,45],[15,30,45],[15,30,45],
-                           [15,30,45],[15,30,45],[15,30,45],[15,30,45],
-                           [15,30,45],[15,30,45],[15,30,45],[15,30,45],
-                           [15,30,45],[15,30,45],[15,30,45],[15,30,45]]
+        self.hintstimes = [
+            [900, 1800, 2700],[900, 1980, 2880],[900, 1800, 2700],[1080, 2160, 3060],
+            [1080, 1980, 2880],[900, 1980, 2880],[1080, 2160, 3240],[900, 2100, 3180],
+            [1080, 2280, 3360],[900, 1800, 2700],[1080, 1980, 2880],[900, 1800, 2700],
+            [900, 2100, 3000],[1200, 2400, 3300],[900, 2100, 3000],[1200, 2280, 3180]]
         self.levelcount = len(self.codes)
         self.admcode = 'a6d9m'
 

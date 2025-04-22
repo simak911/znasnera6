@@ -12,6 +12,8 @@ Lotos,cwtepkm
 GPS,pkvbtla
 Wherever_I_may_roam,htfsrgm
 CML,jxnmhfu
+Lenochodi,ndfvzga
+Želvušky,mkppgcs
 ZTest1,qvnyzla
 ZTest2,tkmucej
 ZTest3,hofxzrb

@@ -65,7 +65,7 @@ def get_login_page():
 
 @app.route('/main')
 def get_main_page():
-    uid = request.args.get('tname')
+    uid = request.args.get('tname').lower()
     if uid == gv.admcode:
         return render_template('admin.html', msg='Logged into admin menu.', msgcolor='pos')
     elif uid in gv.uids:
@@ -77,7 +77,7 @@ def get_main_page():
 @app.route('/entered')
 def entered():
     code = request.args.get('code').lower()
-    uid = request.args.get('tname')
+    uid = request.args.get('tname').lower()
     if uid in gv.uids:
         if code in gv.codes:
             if not gv.teams[uid].isstarted:
@@ -115,7 +115,7 @@ def entered():
 @app.route('/get-img')
 def get_image():
     try:    
-        uid = request.args.get('tname') 
+        uid = request.args.get('tname').lower()
         level = gv.teams[uid].level
         if level > -1:
             return send_file(f'./imgs/s{level}.jpg', mimetype='image/jpeg')
@@ -127,7 +127,7 @@ def get_image():
 @app.route('/get-hint')
 def get_hint():
     try:    
-        uid = request.args.get('tname') 
+        uid = request.args.get('tname').lower() 
         level = gv.teams[uid].level
         stringlevel = str(level)
         timeonlevel = gv.teams[uid].stats[stringlevel]
@@ -151,7 +151,7 @@ def get_hint():
 @app.route('/get-hinttimes')
 def get_hinttimes():  
     try: 
-        uid = request.args.get('tname') 
+        uid = request.args.get('tname').lower() 
         level = gv.teams[uid].level
         stringlevel = str(level)
         timeonlevel = gv.teams[uid].stats[stringlevel]
@@ -171,7 +171,7 @@ def get_hinttimes():
 
 @app.route('/get-stats')
 def get_stats():
-    adminid = request.args.get('tname')
+    adminid = request.args.get('tname').lower()
     if adminid == gv.admcode:
         f = open('./temp.csv', 'w', encoding='utf-8')
         firstline = ['name','s']
@@ -196,9 +196,9 @@ def get_stats():
 
 @app.route('/reset-game')
 def reset_game():
-    uid = request.args.get('tname')
+    uid = request.args.get('tname').lower()
     if uid == gv.admcode:
-        resetuid = request.args.get('rname')
+        resetuid = request.args.get('rname').lower()
         if resetuid in gv.uids:
             gv.teams[resetuid].stats = {}
             gv.teams[resetuid].startlevel = -1

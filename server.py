@@ -190,7 +190,7 @@ def get_stats():
                     line.append('-')
             f.write(tostring(line))
         f.close()
-        return send_file('./temp.csv', mimetype='text/csv', as_attachment=True, download_name='stats.csv', encoding='utf-8')          
+        return send_file('./temp.csv', mimetype='text/csv', as_attachment=True, download_name='stats.csv')          
     else:
         return render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
 

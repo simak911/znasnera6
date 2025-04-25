@@ -7,6 +7,11 @@ h2 {
     margin: 5px;
 }
 
+p {
+    margin: 5px;
+    font-size: small;
+}
+
 .pos {
     color: green;
     font-weight: bold;

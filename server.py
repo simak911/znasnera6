@@ -57,6 +57,9 @@ for uid in gv.uids:
     gv.teams[uid] = team
 gv.uids.append('t4e2s0t')
 
+def gettn(uid):
+    return gv.teams[uid].name
+
 app = Flask(__name__)
 @app.route('/')
 @app.route('/index')
@@ -69,7 +72,7 @@ def get_main_page():
     if uid == gv.admcode:
         return render_template('admin.html', msg='Logged into admin menu.', msgcolor='pos')
     elif uid in gv.uids:
-        return render_template('main.html', msg='Successful login.', msgcolor='pos')   
+        return render_template('main.html', msg='Successful login.', msgcolor='pos', tn=gettn(uid))   
     else:
         return render_template('index.html', msg='Wrong team ID.', msgcolor='neg')
 
@@ -81,7 +84,7 @@ def entered():
     if uid in gv.uids:
         if code in gv.codes:
             if not gv.teams[uid].isstarted:
-                return render_template('main.html', msg='Game not started yet.', msgcolor='neg') 
+                return render_template('main.html', msg='Game not started yet.', msgcolor='neg', tn=gettn(uid)) 
             else:
                 level = gv.codes.index(code)
                 gv.teams[uid].level = level
@@ -89,12 +92,12 @@ def entered():
                     gv.teams[uid].isended = True
                     gv.teams[uid].stats['e'] = gettimestamp() 
                     gv.teams[uid].stats['t'] = gv.teams[uid].stats['e'] - gv.teams[uid].stats['s']
-                    return render_template('main.html', msg='Finish! Go to Jistota!', msgcolor='pos') 
+                    return render_template('main.html', msg='Finish! Go to Jistota!', msgcolor='pos', tn=gettn(uid)) 
                 else:
                     stringlevel = str(level)
                     if not (stringlevel in gv.teams[uid].stats.keys()):
                         gv.teams[uid].stats[stringlevel] = gettimestamp()                                
-                    return render_template('main.html', msg='Success!', msgcolor='pos') 
+                    return render_template('main.html', msg='Success!', msgcolor='pos', tn=gettn(uid)) 
         elif code in gv.startcodes:
             if not gv.teams[uid].isstarted:
                 gv.teams[uid].isstarted = True
@@ -104,13 +107,13 @@ def entered():
                 stringlevel = str(level)
                 gv.teams[uid].stats[stringlevel] = gettimestamp()
                 gv.teams[uid].stats['s'] = gettimestamp()   
-                return render_template('main.html', msg='Game started!', msgcolor='pos') 
+                return render_template('main.html', msg='Game started!', msgcolor='pos', tn=gettn(uid)) 
             else:
-                return render_template('main.html', msg='Code not found.', msgcolor='neg')      
+                return render_template('main.html', msg='Code not found.', msgcolor='neg', tn=gettn(uid))      
         else:
-            return render_template("main.html", msg="Code not found.", msgcolor='neg')          
+            return render_template("main.html", msg="Code not found.", msgcolor='neg', tn=gettn(uid))          
     else:
-        return render_template("main.html", msg="Team not found.", msgcolor='neg')
+        return render_template("main.html", msg="Team not found.", msgcolor='neg', tn="")
 
 @app.route('/get-img')
 def get_image():

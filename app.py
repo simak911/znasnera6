@@ -18,15 +18,19 @@ class GlobalVariables():
     def __init__(self):
         self.teams = {'t4e2s0t': Team('test','t4e2s0t')}
         self.uids = []
-        self.codes = ["qhdxzrw","btrceym","znlkjwa","uxavqnp","jydltqe","wvhoskg","kapzirn","rsmvqtc","egdywlu",
-                      "mhzbkxp","fnyjqwa","ldctugv","xqibsmr","tpvnehc","awjzkml","nevytqs"]
-        self.startcodes = ["zqjrytd","mbtxpwa","lkhnzve","yufsdqm","cjwrbxt","gnovkle","xadumpi","qsryjzh","tmezlca",
-                           "drkwiqn","vuxcpth","nlbqgye","eawmjuz","hipkxrn","kzlfbvo","sydqacm"]
+        self.codes = ["qazxswp","plmokni","ujmnhyt","bgtvfrc","edcrfvt","yhnujmk","iklopqw",
+                      "zmxncbv","asdzxqw","rfvbgty","tgbnhyu","yhnmjuk","plokmij","ijnuhyb",
+                      "vfrcdex","wsxedcr","qwertyu","poiuytr","lkjhgfd","mnbvcxz"]
+        self.startcodes = ["zaqwsxc","xswedcv","cdevfrt","vfrtgby","bgtzhnm","nhyujmk","mkloijp",
+                           "oplkijn","ijnbhyu","uhytgvr","tgbyhnm","yhnujpl","plmoknb","nbvcxza",
+                           "zasxdcv","cxswqaz","qazplmn","mnbvcxq","qwertpl","plmoknz"]
         self.hintstimes = [
-            [900, 1800, 2700],[900, 1980, 2880],[900, 1800, 2700],[1080, 1980, 2880],
-            [1080, 1980, 2880],[900, 1980, 2880],[1080, 2160, 3060],[900, 2100, 3000],
-            [1080, 2280, 3360],[900, 1800, 2700],[1080, 1980, 2880],[900, 1800, 2700],
-            [900, 2100, 3000],[1200, 2400, 3300],[900, 2100, 3000],[1200, 2280, 3180]]
+            [900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700],
+            [900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700],
+            [900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700],
+            [900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700],
+            [900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700],[900, 1800, 2700]
+            ]
         self.levelcount = len(self.codes)
         self.admcode = 'a6d9m'  
 

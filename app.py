@@ -25,7 +25,7 @@ def numberize(text, default):
         return default
 
 def lines_from_csv(filepath):
-    f = open(filepath, encoding = 'utf-8')
+    f = open(filepath, encoding = 'utf-8', newline="")
     r = csv.reader(f, delimiter=';')
     lines = []
     for line in r:
@@ -70,7 +70,7 @@ def load_team_data(uid):
                 level = numberize(line[3], -1)
                 is_started = (format(line[4]) == '1')
                 is_ended = (format(line[5]) == '1')
-                start = numberize(line(6),-1)
+                start = numberize(line[6],-1)
                 end = numberize(line[7],-1)
                 levelstats = []
                 for i in range(8, len(line)):
@@ -99,7 +99,7 @@ def update_team_data(teaminfo):
         newline.append(levelstat)
     filepath = './data/teams.csv'
     lines = lines_from_csv(filepath)
-    newlines = ["TATO RADKA JE K NICEMU"]
+    newlines = [["TATO RADKA JE K NICEMU"]]
     for line in lines:
         if len(line) == 0:
             newlines.append(line)
@@ -107,7 +107,7 @@ def update_team_data(teaminfo):
             newlines.append(newline)
         else:
             newlines.append(line)
-    g = open(filepath, 'w', encoding='utf-8')
+    g = open(filepath, 'w', encoding='utf-8', newline="")
     writer = csv.writer(g, delimiter=';')
     writer.writerows(newlines)
 
@@ -276,7 +276,7 @@ def get_hinttimes():
             if hint.levelnumber == level:
                 act_hint = hint
                 break
-        hintnumber, timetowait = act_hint.get_hintinfo()
+        hintnumber, timetowait = act_hint.get_hintinfo(timewait)
         return {'status': 'valid', 'htime': timetowait, 'hnumber': hintnumber}
     except:
         return {'status': 'invalid'}
@@ -285,7 +285,7 @@ def get_hinttimes():
 def get_stats():
     adminid = format(request.args.get('tname'))
     if adminid == gv.admcode:
-        return send_file('./data/hints.csv', mimetype='text/csv', as_attachment=True, download_name='stats.csv')          
+        return send_file('./data/teams.csv', mimetype='text/csv', as_attachment=True, download_name='stats.csv')          
     else:
         return render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
 

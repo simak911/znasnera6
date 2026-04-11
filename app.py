@@ -277,7 +277,7 @@ def get_hinttimes():
                 act_hint = hint
                 break
         hintnumber, timetowait = act_hint.get_hintinfo(timewait)
-        return {'status': 'valid', 'htime': timetowait, 'hnumber': hintnumber}
+        return {'status': 'valid', 'htime': timetowait, 'hnumber': hintnumber+1}
     except:
         return {'status': 'invalid'}
 

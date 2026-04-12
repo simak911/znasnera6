@@ -4,7 +4,7 @@ import time, os, csv
 import io
 from google.cloud import storage
 
-ENV = os.getenv("ENV", "dev")
+ENV = os.getenv("ENV", "prod")
 is_prod = (ENV == "prod")
 
 bucket_name = "znasnera6_bucket"

@@ -72,7 +72,6 @@ def gethms(ts):
         h = (TIMEZONE + (ts // 3600)) % 24
         return f'{h}:{m}:{s}'
 
-
 def tostring(list):
     s = ''
     for elem in list:
@@ -376,11 +375,13 @@ def reset_game():
         resetuid = format(request.args.get('rname'))
         teaminfo = load_team_data(resetuid)
         if teaminfo is not None:
-            for stat in teaminfo.levelstats:
-                stat = -1
+            for i in range (len(teaminfo.levelstats)):
+                teaminfo.levelstats[i] = -1
             teaminfo.startlevel = -1
             teaminfo.level = -1
             teaminfo.is_started = False
+            teaminfo.start = -1
+            teaminfo.end = -1
             teaminfo.is_ended = False
             update_team_data(teaminfo)
             return render_template('admin.html', stats='', msg=f'Team {teaminfo.name} reseted.', msgcolor='pos')

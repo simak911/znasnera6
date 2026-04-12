@@ -1,3 +1,5 @@
+let hinttimes = [];
+
 function getTeamName(){
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('tname');
@@ -9,17 +11,22 @@ async function getHintTimes(){
   const url = `${baseurl}/get-hinttimes?tname=${teamname}`;
   const response = await fetch(url);
   const json = await response.json();
-  const status = json.status
-  if (status === 'valid') {
-    const htime = json.htime;
-    const hnumber = json.hnumber;
-    if (hnumber !== 0){
-      document.getElementById("hintlabel").innerHTML = `Time for the ${hnumber}. hint:`;
-      document.getElementById("hinttime").innerHTML = `${htime}`;
-    }
-    else {
-      document.getElementById("hintlabel").innerHTML = '';
-      document.getElementById("hinttime").innerHTML = '';
+  const status = json.status;
+  if (status == 'valid') {
+    hinttimes = json.htimes;
+  }
+}
+
+function showHintTimes(){
+  const timestamp = Math.round(Date.now() / 1000);
+  const hintcount = hinttimes.length;
+  for (let i=0; i < hintcount; i++) {
+    const hinttime = hinttimes[i];
+    const waittime = hinttime - timestamp;
+    if (waittime > 0) {
+      document.getElementById("hintlabel").innerHTML = `Time for the ${i+1}. hint:`;
+      document.getElementById("hinttime").innerHTML = `${waittime}`;
+      break;
     }
   }
 }
@@ -49,4 +56,4 @@ document.getElementById("showhint").addEventListener("click", function(){
 });
 
 getHintTimes();
-setInterval(getHintTimes, 500);
+setInterval(showHintTimes, 500);

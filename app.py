@@ -3,8 +3,7 @@ from waitress import serve
 import time, os, csv, math
 
 def gettimestamp():
-    timestamp = 1745618400
-    return round(time.time() - timestamp)
+    return round(time.time())
 
 def tostring(list):
     s = ''
@@ -136,9 +135,8 @@ class Hint():
             if seconds >= self.hinttimes[i]:
                 seconds -= self.hinttimes[i]
             else:
-                timetowait = self.hinttimes[i] - seconds
-                return i, timetowait
-        return hintcount, 0
+                return i
+        return hintcount
 
 class GlobalVariables():
     def __init__(self):
@@ -251,7 +249,7 @@ def get_hint():
             if hint.levelnumber == level:
                 act_hint = hint
                 break
-        hintnumber, waittime = act_hint.get_hintinfo(timewait)
+        hintnumber = act_hint.get_hintinfo(timewait)
         if level > -1:
             if hintnumber > 0:
                 return send_file(f'./imgs/h{level}_{hintnumber}.jpg', mimetype='image/jpeg')
@@ -269,15 +267,18 @@ def get_hinttimes():
         teaminfo = load_team_data(uid)
         level = teaminfo.level
         timeonlevel = teaminfo.levelstats[level]
-        timenow = gettimestamp()
-        timewait = timenow - timeonlevel
         act_hint = None
         for hint in gv.hints:
             if hint.levelnumber == level:
                 act_hint = hint
                 break
-        hintnumber, timetowait = act_hint.get_hintinfo(timewait)
-        return {'status': 'valid', 'htime': timetowait, 'hnumber': hintnumber+1}
+        utchinttimes = []
+        utchinttime = timeonlevel
+        waittimes = act_hint.hinttimes
+        for waittime in waittimes:
+            utchinttime += waittime
+            utchinttimes.append(utchinttime)
+        return {'status': 'valid', 'htimes': utchinttimes}
     except:
         return {'status': 'invalid'}
 

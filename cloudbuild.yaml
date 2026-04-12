@@ -11,6 +11,7 @@ steps:
         '--image', 'gcr.io/$PROJECT_ID/znasnera6',
         '--platform', 'managed',
         '--region', 'europe-central2',
+        '--set-env-vars', 'ENV=prod',
         '--allow-unauthenticated'
       ]
 

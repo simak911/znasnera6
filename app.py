@@ -1,6 +1,50 @@
 from flask import Flask, render_template, request, send_file, g
 from waitress import serve
-import time, os, csv, math
+import time, os, csv
+import io
+from google.cloud import storage
+
+ENV = os.getenv("ENV", "dev")
+is_prod = (ENV == "prod")
+
+bucket_name = "znasnera6_bucket"
+
+def get_reader(filename):
+    if is_prod:
+        return get_csv_from_bucket(filename)
+    else:
+        f = open(filename, 'r', encoding='utf-8', newline='')
+        reader = csv.reader(f, delimiter=';')
+        return reader
+
+def write_rows(filename, rows):
+    if is_prod:
+        put_csv_to_bucket(filename, rows)
+    else:
+        g = open(filename, 'w', encoding='utf-8', newline="")
+        writer = csv.writer(g, delimiter=';')
+        writer.writerows(rows)
+
+
+def get_csv_from_bucket(filename):
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(filename)
+    data = blob.download_as_text()
+    input_data = io.StringIO(data)
+    reader = csv.reader(input_data, delimiter=';')
+    return reader
+
+def put_csv_to_bucket(filename, rows):
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(filename)
+
+    output = io.StringIO()
+    writer = csv.writer(output, delimiter = ';')
+    writer.writerows(rows)
+
+    blob.upload_from_string(output.getvalue(), content_type="text/csv")
 
 def gettimestamp():
     return round(time.time())
@@ -24,8 +68,7 @@ def numberize(text, default):
         return default
 
 def lines_from_csv(filepath):
-    f = open(filepath, encoding = 'utf-8', newline="")
-    r = csv.reader(f, delimiter=';')
+    r = get_reader(filepath)
     lines = []
     for line in r:
         lines.append(line)
@@ -106,9 +149,7 @@ def update_team_data(teaminfo):
             newlines.append(newline)
         else:
             newlines.append(line)
-    g = open(filepath, 'w', encoding='utf-8', newline="")
-    writer = csv.writer(g, delimiter=';')
-    writer.writerows(newlines)
+    write_rows(filepath, newlines)
 
 class TeamInfo():
     def __init__(self, uid, name, startlevel, level, is_started, is_ended, start, end, levelstats):

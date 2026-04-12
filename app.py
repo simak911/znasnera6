@@ -46,8 +46,32 @@ def put_csv_to_bucket(filename, rows):
 
     blob.upload_from_string(output.getvalue(), content_type="text/csv")
 
+def tabletostring(headerline, lines):
+    content = ''
+    th = ''
+    for elem in headerline:
+        th += f'<th>{elem}</th>'
+    content += f'<tr>{th}</tr>'    
+    for row in lines:
+        tr = ''
+        for elem in row:
+            tr += f'<td>{elem}</td>'
+        content += f'<tr>{tr}</tr>'
+    return f'<table id="restable">{content}</table>'
+
 def gettimestamp():
     return round(time.time())
+
+def gethms(ts):
+    if ts < 0:
+        return '-'
+    else:
+        TIMEZONE = 2
+        s = ts % 60
+        m = (ts // 60) % 60
+        h = (TIMEZONE + (ts // 3600)) % 24
+        return f'{h}:{m}:{s}'
+
 
 def tostring(list):
     s = ''
@@ -208,7 +232,7 @@ def get_login_page():
 def get_main_page():
     uid = format(request.args.get('tname'))
     if uid == gv.admcode:
-        return render_template('admin.html', msg='Logged into admin menu.', msgcolor='pos')
+        return render_template('admin.html', stats='', msg='Logged into admin menu.', msgcolor='pos')
     elif uid in gv.uids:
         return render_template('main.html', msg='Successful login.', msgcolor='pos', tn=gettn(uid))   
     else:
@@ -327,7 +351,21 @@ def get_hinttimes():
 def get_stats():
     adminid = format(request.args.get('tname'))
     if adminid == gv.admcode:
-        return send_file('./data/teams.csv', mimetype='text/csv', as_attachment=True, download_name='stats.csv')          
+        headerline = ['Teamname', 'Start', 'End']
+        for i in range (gv.levelcount):
+            headerline.append(str(i))
+        lines = []
+        for uid in gv.uids:
+            line = []
+            teaminfo = load_team_data(uid)
+            line.append(teaminfo.name)
+            line.append(gethms(teaminfo.start))
+            line.append(gethms(teaminfo.end))
+            for levelstat in teaminfo.levelstats:
+                line.append(gethms(levelstat))
+            lines.append(line)
+        htmlstring = tabletostring(headerline, lines)
+        return render_template('admin.html', stats=htmlstring, msg='Stats successfully loaded', msgcolor='pos')          
     else:
         return render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
 
@@ -345,9 +383,9 @@ def reset_game():
             teaminfo.is_started = False
             teaminfo.is_ended = False
             update_team_data(teaminfo)
-            return render_template('admin.html', msg=f'Team {teaminfo.name} reseted.', msgcolor='pos')
+            return render_template('admin.html', stats='', msg=f'Team {teaminfo.name} reseted.', msgcolor='pos')
         else:
-            return render_template('admin.html', msg=f'Team id not found.', msgcolor='neg')
+            return render_template('admin.html', stats='', msg=f'Team id not found.', msgcolor='neg')
     else:
         return render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
 

@@ -13,7 +13,7 @@ def get_reader(filename):
     if is_prod:
         return get_csv_from_bucket(filename)
     else:
-        f = open(filename, 'r', encoding='utf-8', newline='')
+        f = open(f'./data/{filename}', 'r', encoding='utf-8', newline='')
         reader = csv.reader(f, delimiter=';')
         return reader
 
@@ -21,7 +21,7 @@ def write_rows(filename, rows):
     if is_prod:
         put_csv_to_bucket(filename, rows)
     else:
-        g = open(filename, 'w', encoding='utf-8', newline="")
+        g = open(f'./data/{filename}', 'w', encoding='utf-8', newline='')
         writer = csv.writer(g, delimiter=';')
         writer.writerows(rows)
 
@@ -99,7 +99,7 @@ def lines_from_csv(filepath):
     return lines
 
 def load_hint_data(speed):
-    filepath = './data/hints.csv'
+    filepath = 'hints.csv'
     lines = lines_from_csv(filepath)
     hints = []
     for line in lines:
@@ -115,7 +115,7 @@ def load_hint_data(speed):
     return hints
 
 def load_uids():
-    filepath = './data/teams.csv'
+    filepath = 'teams.csv'
     lines = lines_from_csv(filepath)
     uids = []
     for line in lines:
@@ -125,7 +125,7 @@ def load_uids():
 
 def load_team_data(uid):
     uid = format(uid)
-    filepath = './data/teams.csv'
+    filepath = 'teams.csv'
     lines = lines_from_csv(filepath)
     for line in lines:
         if len(line)>8:
@@ -162,7 +162,7 @@ def update_team_data(teaminfo):
     newline = [uid, name, startlevel, level, is_started, is_ended, start, end]
     for levelstat in levelstats:
         newline.append(levelstat)
-    filepath = './data/teams.csv'
+    filepath = 'teams.csv'
     lines = lines_from_csv(filepath)
     newlines = [["TATO RADKA JE K NICEMU"]]
     for line in lines:

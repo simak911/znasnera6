@@ -260,16 +260,19 @@ def entered():
                 return render_template('main.html', msg='Game not started yet.', msgcolor='neg', tn=teaminfo.name) 
             else:
                 level = act_hint.levelnumber
-                teaminfo.level = level
-                if level == teaminfo.startlevel and not teaminfo.is_ended:
-                    teaminfo.is_ended = True
-                    teaminfo.end = gettimestamp()
-                    update_team_data(teaminfo)
-                    return render_template('main.html', msg='Finish! Go to Jistota!', msgcolor='pos', tn=teaminfo.name) 
+                if teaminfo.level == level:
+                    return render_template('main.html', msg='Code already entered.', msgcolor='neg', tn=teaminfo.name) 
                 else:
-                    teaminfo.levelstats[level] = gettimestamp()
-                    update_team_data(teaminfo)                               
-                    return render_template('main.html', msg='Success!', msgcolor='pos', tn=teaminfo.name) 
+                    teaminfo.level = level
+                    if level == teaminfo.startlevel and not teaminfo.is_ended:
+                        teaminfo.is_ended = True
+                        teaminfo.end = gettimestamp()
+                        update_team_data(teaminfo)
+                        return render_template('main.html', msg='Finish! Go to Jistota!', msgcolor='pos', tn=teaminfo.name) 
+                    else:
+                        teaminfo.levelstats[level] = gettimestamp()
+                        update_team_data(teaminfo)                               
+                        return render_template('main.html', msg='Success!', msgcolor='pos', tn=teaminfo.name) 
         elif is_correct_startcode:
             if not teaminfo.is_started:
                 teaminfo.is_started = True

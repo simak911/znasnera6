@@ -326,6 +326,8 @@ def get_hint():
             if hint.levelnumber == level:
                 act_hint = hint
                 break
+        if act_hint is None:
+            return send_file('./imgs/loadfail.jpg', mimetype='image/jpeg')
         hintnumber = act_hint.get_hintinfo(timewait)
         if level > -1:
             if hintnumber > 0:
@@ -348,7 +350,8 @@ def get_hinttimes():
         for hint in gv.hints:
             if hint.levelnumber == level:
                 act_hint = hint
-                break
+        if act_hint is None:
+            return {'status': 'invalid'}
         utchinttimes = []
         utchinttime = timeonlevel
         waittimes = act_hint.hinttimes

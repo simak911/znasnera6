@@ -24,7 +24,7 @@ function showHintTimes(){
     const hinttime = hinttimes[i];
     const waittime = hinttime - timestamp;
     if (waittime > 0) {
-      document.getElementById("hintlabel").innerHTML = `Time for the ${i+1}. hint:`;
+      document.getElementById("hintlabel").innerHTML = `Čas na ${i+1}. nápovědu:`;
       document.getElementById("hinttime").innerHTML = `${waittime}`;
       break;
     }
@@ -39,7 +39,7 @@ document.getElementById("confirm").addEventListener("click", function() {
       const url = `${baseurl}/entered?code=${levelcode}&tname=${teamname}`;
       window.open(url, "_self");
     } else {
-      alert("Please fill in level code.");
+      alert("Prosím zadej heslo stanoviště.");
     }
   });
 

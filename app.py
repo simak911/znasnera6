@@ -174,6 +174,14 @@ def update_team_data(teaminfo):
             newlines.append(line)
     write_rows(filepath, newlines)
 
+def is_successor(lev1, lev2, levelcount):
+    if (lev2 - lev1) == 1:
+        return True
+    elif lev1 == levelcount - 1 and lev2 == 0:
+        return True
+    else:
+        return False
+
 class TeamInfo():
     def __init__(self, uid, name, startlevel, level, is_started, is_ended, start, end, levelstats):
         self.uid = uid
@@ -262,6 +270,8 @@ def entered():
                 level = act_hint.levelnumber
                 if teaminfo.level == level:
                     return render_template('main.html', msg='Code already entered.', msgcolor='neg', tn=teaminfo.name) 
+                elif not is_successor(teaminfo.level, level, gv.levelcount):
+                    return render_template('main.html', msg='Stanoviště mimo pořadí.', msgcolor='neg', tn=teaminfo.name)
                 else:
                     teaminfo.level = level
                     if level == teaminfo.startlevel and not teaminfo.is_ended:

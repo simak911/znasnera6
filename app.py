@@ -212,7 +212,7 @@ class Hint():
 
 class GlobalVariables():
     def __init__(self):
-        self.hints = load_hint_data(60)
+        self.hints = load_hint_data(1)
         self.levelcount = len(self.hints)
         self.uids = load_uids()
         self.codes = [hint.code for hint in self.hints]
@@ -239,11 +239,11 @@ def get_login_page():
 def get_main_page():
     uid = format(request.args.get('tname'))
     if uid == gv.admcode:
-        return render_template('admin.html', stats='', msg='Logged into admin menu.', msgcolor='pos')
+        return render_template('admin.html', stats='', msg='Jsi v admin menu.', msgcolor='pos')
     elif uid in gv.uids:
-        return render_template('main.html', msg='Successful login.', msgcolor='pos', tn=gettn(uid))   
+        return render_template('main.html', msg='Úspěšné přihlášení.', msgcolor='pos', tn=gettn(uid))   
     else:
-        return render_template('index.html', msg='Wrong team ID.', msgcolor='neg')
+        return render_template('index.html', msg='Špatné týmové heslo.', msgcolor='neg')
 
 
 @app.route('/entered')
@@ -265,11 +265,11 @@ def entered():
                 break
         if is_correct_code:
             if not teaminfo.is_started:
-                return render_template('main.html', msg='Game not started yet.', msgcolor='neg', tn=teaminfo.name) 
+                return render_template('main.html', msg='Začni kódem startovního stanoviště.', msgcolor='neg', tn=teaminfo.name) 
             else:
                 level = act_hint.levelnumber
                 if teaminfo.level == level:
-                    return render_template('main.html', msg='Code already entered.', msgcolor='neg', tn=teaminfo.name) 
+                    return render_template('main.html', msg='Tento kód už byl zadán.', msgcolor='neg', tn=teaminfo.name) 
                 elif not is_successor(teaminfo.level, level, gv.levelcount):
                     return render_template('main.html', msg='Stanoviště mimo pořadí.', msgcolor='neg', tn=teaminfo.name)
                 else:
@@ -278,11 +278,11 @@ def entered():
                         teaminfo.is_ended = True
                         teaminfo.end = gettimestamp()
                         update_team_data(teaminfo)
-                        return render_template('main.html', msg='Finish! Go to Jistota!', msgcolor='pos', tn=teaminfo.name) 
+                        return render_template('main.html', msg='Jsi v cíli, jdi do Jistoty!', msgcolor='pos', tn=teaminfo.name) 
                     else:
                         teaminfo.levelstats[level] = gettimestamp()
                         update_team_data(teaminfo)                               
-                        return render_template('main.html', msg='Success!', msgcolor='pos', tn=teaminfo.name) 
+                        return render_template('main.html', msg='Super!', msgcolor='pos', tn=teaminfo.name) 
         elif is_correct_startcode:
             if not teaminfo.is_started:
                 teaminfo.is_started = True
@@ -292,13 +292,13 @@ def entered():
                 teaminfo.start = gettimestamp()
                 teaminfo.levelstats[level] = gettimestamp()
                 update_team_data(teaminfo)
-                return render_template('main.html', msg='Game started!', msgcolor='pos', tn=gettn(uid)) 
+                return render_template('main.html', msg='Hra začíná!', msgcolor='pos', tn=gettn(uid)) 
             else:
-                return render_template('main.html', msg='Code not found.', msgcolor='neg', tn=gettn(uid))      
+                return render_template('main.html', msg='Kód nebyl nalezen.', msgcolor='neg', tn=gettn(uid))      
         else:
-            return render_template("main.html", msg="Code not found.", msgcolor='neg', tn=gettn(uid))          
+            return render_template("main.html", msg="Kód nebyl nalezen.", msgcolor='neg', tn=gettn(uid))          
     else:
-        return render_template("main.html", msg="Team not found.", msgcolor='neg', tn="")
+        return render_template("main.html", msg="Tým nebyl nalezen.", msgcolor='neg', tn="")
 
 @app.route('/get-img')
 def get_image():
@@ -377,9 +377,9 @@ def get_stats():
                 line.append(gethms(levelstat))
             lines.append(line)
         htmlstring = tabletostring(headerline, lines)
-        return render_template('admin.html', stats=htmlstring, msg='Stats successfully loaded', msgcolor='pos')          
+        return render_template('admin.html', stats=htmlstring, msg='Statistiky načteny', msgcolor='pos')          
     else:
-        return render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
+        return render_template('index.html', msg='Ani to nezkoušej.', msgcolor = 'neg')
 
 @app.route('/reset-game')
 def reset_game():
@@ -397,11 +397,11 @@ def reset_game():
             teaminfo.end = -1
             teaminfo.is_ended = False
             update_team_data(teaminfo)
-            return render_template('admin.html', stats='', msg=f'Team {teaminfo.name} reseted.', msgcolor='pos')
+            return render_template('admin.html', stats='', msg=f'Tým {teaminfo.name} restartován.', msgcolor='pos')
         else:
-            return render_template('admin.html', stats='', msg=f'Team id not found.', msgcolor='neg')
+            return render_template('admin.html', stats='', msg=f'Tým nenalezen.', msgcolor='neg')
     else:
-        return render_template('index.html', msg='You have no power here.', msgcolor = 'neg')
+        return render_template('index.html', msg='Ani to nezkoušej.', msgcolor = 'neg')
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))

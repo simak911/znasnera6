@@ -212,7 +212,8 @@ class Hint():
 
 class GlobalVariables():
     def __init__(self):
-        self.hints = load_hint_data(1)
+        self.speed = 1
+        self.hints = load_hint_data(self.speed)
         self.levelcount = len(self.hints)
         self.uids = load_uids()
         self.codes = [hint.code for hint in self.hints]
